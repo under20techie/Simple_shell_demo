@@ -1,4 +1,5 @@
-#ifndef MA
+#ifndef _MAIN_H_
+#define _MAIN_H_
 #define MAX_TOKENS 64
 #define BUF_SIZE 1024
 #include <unistd.h>
@@ -82,3 +83,4 @@ int my_strlen(const char *str);
 char *
 my_strcat(char *s, char *append);
 
+#endif /* _MAIN_H_ */
