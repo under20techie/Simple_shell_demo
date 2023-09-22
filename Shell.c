@@ -8,6 +8,7 @@ int main (int argc, char *argv[])
         non_interactive_mode((void *) 0);
     else
         interactive_mode();
+return status;
 }
 void non_interactive_mode(char *filename)
 {
@@ -264,7 +265,7 @@ void parse_cmd_line(char *cmd_line)
     
 }
 
-void *parse_command(char **token, int num_tokens)
+void parse_command(char **token, int num_tokens)
 {
 	int i;
 	if (num_tokens <= 0)
@@ -578,8 +579,7 @@ void exec_command_separator(char **token, int *token_ptr)
         }
         
     }
-    
-    
+      
 }
 void exec_simple_command (int **cmd, int *token)
 {
