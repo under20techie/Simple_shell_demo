@@ -581,7 +581,7 @@ void exec_command_separator(char **token, int *token_ptr)
     }
       
 }
-void (char **cmd, int *token)
+void exec_simple_command (char **cmd, int *token)
 {
     (void) cmd;
     (void) token;
