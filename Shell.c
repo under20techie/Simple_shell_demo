@@ -583,9 +583,7 @@ void exec_command_separator(char **token, int *token_ptr)
 }
 void exec_simple_command (char **cmd, int *token)
 {
-    (void) cmd;
-    (void) token;
-    write(1, "I got here", my_strlen("I got here"));
+    execute_command(cmd, token):
 
 }
 int _strcmp(char *s1, char *s2) 
