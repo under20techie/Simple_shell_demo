@@ -66,7 +66,7 @@ void *my_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int _strcmp(char *s1, char *s2);
 
 /* The command-line parser */
-void *parse_command(char **token, int num_tokens);
+void parse_command(char **token, int num_tokens);
 void parse_cmd_line(char *cmd_line);
 void exec_pipe(char **token, int *token_ptr);
  void exec_redirect_in(char **token, int *token_ptr);
