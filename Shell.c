@@ -241,7 +241,7 @@ void print_my_prompt(void)
 
 void parse_cmd_line(char *cmd_line)
 {
-        int i = 0;
+        
         char *token = my_strtok(cmd_line, " ");
         int token_no = 0;
         char *tokens[MAX_TOKENS];
@@ -308,9 +308,9 @@ int get_token_type (char *token)
 {
     int return_value = 0;
     if(_strcmp(token , "&&") == 0)
-        return TOKEN_LOGICAL_AND;
+        return return_value = TOKEN_LOGICAL_AND;
     else if(_strcmp(token, "||") == 0)
-        return TOKEN_LOGICAL_OR;
+        return return_value = TOKEN_LOGICAL_OR;
     switch (*token)
     {
         case '|':
@@ -349,7 +349,7 @@ void handle_single_line_comment(char* line)
 }
 void handle_multi_line_comment(char* line)
 {
-    /* Find the first occurrence of the comment start marker "/*"
+    /* Find the first occurrence of the comment start marker 
     */
     char* comment_start = my_strstr(line, "/*");
 
@@ -580,7 +580,7 @@ void exec_command_separator(char **token, int *token_ptr)
     
     
 }
-exec_simple_command (int **cmd, int token)
+exec_simple_command (int **cmd, int *token)
 {
     (void) cmd;
     (void) token;
@@ -638,7 +638,7 @@ void unset_environment_variable(char *name)
             free(env_vars[i].name);
             free(env_vars[i].value);
             /* Shift the elements after the removed variable */
-            for (int j = i; j < env_count - 1; j++) 
+            for (j = i; j < env_count - 1; j++) 
             {
                 env_vars[j] = env_vars[j + 1];
             }
@@ -902,7 +902,7 @@ void execute_external_command(char **command, int token)
             */
             waitpid(pid, &status, 0);
 
-            // Save the exit status of the last executed command
+            /* Save the exit status of the last executed command */
             shell_exit(WEXITSTATUS(status));
         }
 
@@ -917,8 +917,8 @@ void execute_external_command(char **command, int token)
 }
 int my_atoi(char* str)
 {
-    int res = 0;
-    for (int i = 0; str[i] != '\0'; ++i)
+    int res = 0, i;
+    for (i = 0; str[i] != '\0'; ++i)
         res = res * 10 + str[i] - '0';
         
     return res;
@@ -927,18 +927,19 @@ int my_atoi(char* str)
 
 void shell_exit(int exit_status)
 {
-    int shell_exit_status;
-    shell_exit_status = exit_status;
+
+    exit(exit_status);
     /* Add any additional cleanup or termination steps if needed
     */
 }  
 
 int check_for_special_characters(char **tokens) 
 {
-    for (int i = 0; tokens[i] != NULL; i++) 
+    int i;
+    for (i = 0; tokens[i] != NULL; i++) 
     {
         char *token = tokens[i];
-        if (strchr(token, '|') || my_strchr(token, ';') ||
+        if (my_strchr(token, '|') || my_strchr(token, ';') ||
             my_strchr(token, '&') || my_strchr(token, '<') ||
             my_strchr(token, '>') || my_strstr(token, "&&") ||
             my_strstr(token, "||")) 
