@@ -1,6 +1,8 @@
 #include "main.h"
 int main (int argc, char *argv[])
 {
+    (void) argc
+    (void) argv
     if(!isatty(STDIN_FILENO))
         non_interactive_mode((void *) 0);
     else
