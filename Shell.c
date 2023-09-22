@@ -4,7 +4,7 @@ int main (int argc, char *argv[])
     (void) argc;
     (void) argv;
 	
-    if(!isatty(STDIN_FILENO))
+    if (!isatty(STDIN_FILENO))
         non_interactive_mode((void *) 0);
     else
         interactive_mode();
@@ -331,7 +331,7 @@ int get_token_type (char *token)
         default:
         return_value = TOKEN_UNKNOWN;
     }
-    
+   return 0; 
 }
 
 void handle_single_line_comment(char* line) 
@@ -346,6 +346,7 @@ void handle_single_line_comment(char* line)
     {
         *comment_start = '\0';
     }
+
 }
 void handle_multi_line_comment(char* line)
 {
@@ -580,7 +581,7 @@ void exec_command_separator(char **token, int *token_ptr)
     
     
 }
-exec_simple_command (int **cmd, int *token)
+void exec_simple_command (int **cmd, int *token)
 {
     (void) cmd;
     (void) token;
