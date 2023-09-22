@@ -870,7 +870,7 @@ void execute_external_command(char **command, int token)
     /** Resolve the command path using the
      * provided function
     */
-    char *command_path = get_command_path(command[*token - 1]);
+    char *command_path = get_command_path(command[token - 1]);
 
     if (command_path) 
     {
