@@ -583,7 +583,7 @@ void exec_command_separator(char **token, int *token_ptr)
 }
 void exec_simple_command (char **cmd, int *token)
 {
-    execute_command(cmd, token):
+    execute_command(cmd, *token):
 
 }
 int _strcmp(char *s1, char *s2) 
@@ -781,44 +781,44 @@ void free_aliases()
 }
 
 
-void handle_builtin_command(char **cmd, int *token) {
+void handle_builtin_command(char **cmd, int token) {
     char **command = cmd;
 
-    if (_strcmp(command[*token - 1], "exit") == 0)
+    if (_strcmp(command[token - 1], "exit") == 0)
     {
         /** Handle exit command
          *  You may perform any necessary
          * cleanup here before exiting.
          */
-         shell_exit(my_atoi(command[*token]));
+         shell_exit(my_atoi(command[token]));
          
     }
-    else if (_strcmp(command[*token - 1], "alias") == 0) 
+    else if (_strcmp(command[token - 1], "alias") == 0) 
     {
         /* Handle alias command */
-        if (command[*token - 1] && command[*token])
+        if (command[token - 1] && command[token])
         {
-            add_alias(command[*token - 1], command[*token]);
+            add_alias(command[token - 1], command[token]);
         } 
 	else
 	{
             list_aliases();
         }
     }
-    else if (_strcmp(command[*token - 1], "unalias") == 0) 
+    else if (_strcmp(command[token - 1], "unalias") == 0) 
     {
         /* Handle unalias command  */
-        if (command[*token])
+        if (command[token])
 	{
-            remove_alias(command[*token]);
+            remove_alias(command[token]);
         }
     } 
-    else if (_strcmp(command[*token - 1], "cd") == 0) 
+    else if (_strcmp(command[token - 1], "cd") == 0) 
     {
         /* Handle cd command */
-        if (command[*token])
+        if (command[token])
         {
-            if (chdir(command[*token]) == -1)
+            if (chdir(command[token]) == -1)
             {
                 perror("cd");
             }
@@ -828,24 +828,24 @@ void handle_builtin_command(char **cmd, int *token) {
             perror("cd: Missing argument");
         }
     }
-    else if (_strcmp(command[*token - 1], "setenv") == 0) 
+    else if (_strcmp(command[token - 1], "setenv") == 0) 
     {
         /* Handle setenv command */
-        if (command[*token - 1] && command[*token]) 
+        if (command[token - 1] && command[token]) 
         {
-            set_environment_variable(command[*token - 1], command[*token]);
+            set_environment_variable(command[token - 1], command[token]);
         } 
         else 
         {
             perror("setenv: Invalid arguments");
         }
     }
-    else if (_strcmp(command[*token - 1], "unsetenv") == 0)
+    else if (_strcmp(command[token - 1], "unsetenv") == 0)
     {
         /* Handle unsetenv command */
-        if (command[*token]) 
+        if (command[token]) 
         {
-            unset_environment_variable(command[*token]);
+            unset_environment_variable(command[token]);
         }
         else 
         {
@@ -859,13 +859,13 @@ void handle_builtin_command(char **cmd, int *token) {
     }
 }
 
-void execute_command(char **cmd, int *token)
+void execute_command(char **cmd, int token)
 {
         handle_builtin_command(cmd,  token);
 }
 
 
-void execute_external_command(char **command, int *token)
+void execute_external_command(char **command, int token)
 {
     /** Resolve the command path using the
      * provided function
