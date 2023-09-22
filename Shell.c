@@ -2,7 +2,7 @@
 int main (int argc, char *argv[])
 {
     (void) argc;
-    (void **) argv;
+    (void) argv;
 	
     if(!isatty(STDIN_FILENO))
         non_interactive_mode((void *) 0);
@@ -11,7 +11,7 @@ int main (int argc, char *argv[])
 }
 void non_interactive_mode(char *filename)
 {
-	(void *)filename; 
+	(void)filename; 
     /*
     if(access())
     */
@@ -23,7 +23,7 @@ void non_interactive_mode(char *filename)
     
 }
 void interactive_mode(void)
-    {
+{
         char *line = NULL;
         size_t n = 1024;
         ssize_t bytes_read;
