@@ -1,8 +1,9 @@
 #include "main.h"
 int main (int argc, char *argv[])
 {
-    (void) argc
-    (void) argv
+    (void) argc;
+    (void **) argv;
+	
     if(!isatty(STDIN_FILENO))
         non_interactive_mode((void *) 0);
     else
@@ -10,6 +11,7 @@ int main (int argc, char *argv[])
 }
 void non_interactive_mode(char *filename)
 {
+	(void *)filename; 
     /*
     if(access())
     */
@@ -316,6 +318,7 @@ int get_token_type (char *token)
         break;
         case '<':
         return_value = TOKEN_REDIRECT_IN;
+	break;
         case '>':
         return_value = TOKEN_REDIRECT_OUT;
         break;
@@ -424,14 +427,14 @@ char *my_strcpy(char *to, char *from)
 {
 	char *save = to;
 
-	for (; *to = *from; ++from, ++to);
+	for (; (*to = *from); ++from, ++to);
 	return(save);
 }
 int my_strlen(char *str)
 {
 	register char *s;
 
-	for (s = str; *s; ++s)
+	for ((s = str); *s; ++s)
 	    ;
 	    return(s - str);
 }
@@ -441,19 +444,21 @@ char *my_strcat(char *s, char *append)
 
 	for (; *s; ++s)
 	    ;
-	while (*s++ = *append++)
+	while ((*s++ = *append++))
 	    ;
 	return(save);
 }
-// Implement set_pipe
+/* Implement set_pipe */
 void exec_pipe(char **token, int *token_ptr) 
 {
-    
+   (void) token;
+   (void) token_ptr;
+	
 ;
 
 }
 
-// Implement set_redirect_in
+/* Implement set_redirect_in */
 void exec_redirect_in(char **token, int *token_ptr) 
 {
 
@@ -470,7 +475,7 @@ void exec_redirect_in(char **token, int *token_ptr)
 
 }
 
-// Implement set_redirect_out
+/* Implement set_redirect_out */
 void exec_redirect_out(char **token, int *token_ptr) 
 {
     
@@ -492,7 +497,8 @@ void exec_redirect_out(char **token, int *token_ptr)
 void exec_background(char **token, int *token_ptr) 
 {
     
-    
+    (void) token;
+    (void) token_ptr;
     
     
 }
@@ -525,7 +531,7 @@ void exec_logical_and(char **token, int *token_ptr)
     
 }
 
-// Implement set_logical_or
+/* Implement set_logical_or */
 void exec_logical_or(char **token, int *token_ptr) 
 {
     if (token[*token_ptr - 1] && token[*token_ptr + 1])
@@ -576,6 +582,8 @@ void exec_command_separator(char **token, int *token_ptr)
 }
 exec_simple_command (int **cmd, int token)
 {
+    (void) cmd;
+    (void) token;
     write(1, "I got here", my_strlen("I got here"));
 
 }
@@ -605,7 +613,8 @@ void add_environment_variable(char *name, char *value)
 
 void set_environment_variable(char *name, char *value) 
 {
-    for (int i = 0; i < env_count; i++) 
+    int i;
+    for (i = 0; i < env_count; i++) 
     {
         if (_strcmp(env_vars[i].name, name) == 0) 
         {
@@ -621,7 +630,8 @@ void set_environment_variable(char *name, char *value)
 
 void unset_environment_variable(char *name) 
 {
-    for (int i = 0; i < env_count; i++) 
+    int i, j;
+    for (i = 0; i < env_count; i++) 
     {
         if (_strcmp(env_vars[i].name, name) == 0) 
         {
@@ -640,14 +650,16 @@ void unset_environment_variable(char *name)
 
 void print_environment_variables() 
 {
-    for (int i = 0; i < env_count; i++) 
+    int i;
+    for (i = 0; i < env_count; i++) 
     {
         printf("%s=%s\n", env_vars[i].name, env_vars[i].value);
     }
 }
 char* get_env(char *name)
 {
-    for (int i = 0; i < env_count; i++) 
+    int i;
+    for (i = 0; i < env_count; i++) 
     {
         if (_strcmp(env_vars[i].name, name) == 0)
         {
@@ -658,9 +670,8 @@ char* get_env(char *name)
 }
 void free_environment()
 {
-    if (env_vars)
-    {
-        for (int i = 0; i < env_count; i++) 
+	int i;
+        for (i = 0; i < env_count; i++) 
         {
             if(env_vars[i].name && env_vars[i].value)
             {
@@ -670,7 +681,6 @@ void free_environment()
         }
         env_count = 0;
         env_capacity = 0;
-    }
 }
 
 char *get_command_path(char *command)
@@ -683,7 +693,9 @@ char *get_command_path(char *command)
     while (dir)
     {
         char *command_path = (char *)malloc(my_strlen(dir) + my_strlen(command) + 2);
-        sprintf(command_path, "%s/%s", dir, command);
+        my_strcpy(command_path, dir);
+	my_strcpy(command_path, "/");
+	my_strcpy(command_path, command);
 
         if (access(command_path, X_OK) == 0)
         {
@@ -714,7 +726,8 @@ void add_alias(char *alias, char *command)
 
 void list_aliases() 
 {
-    for (int i = 0; i < alias_count; i++) 
+    int i;
+    for (i = 0; i < alias_count; i++) 
     {
         printf("alias %s='%s'\n", aliases[i].alias, aliases[i].command);
     }
@@ -722,7 +735,8 @@ void list_aliases()
 
 void remove_alias(char *alias) 
 {
-    for (int i = 0; i < alias_count; i++)
+    int i, j;
+    for (i = 0; i < alias_count; i++)
     {
         if (_strcmp(aliases[i].alias, alias) == 0) 
         {
@@ -730,7 +744,7 @@ void remove_alias(char *alias)
             free(aliases[i].command);
             /* Shift the elements after the removed alias
             */
-            for (int j = i; j < alias_count - 1; j++)
+            for (j = i; j < alias_count - 1; j++)
             {
                 aliases[j] = aliases[j + 1];
             }
@@ -742,7 +756,8 @@ void remove_alias(char *alias)
 
 char *get_alias(char *alias) 
 {
-    for (int i = 0; i < alias_count; i++) 
+    int i;
+    for (i = 0; i < alias_count; i++) 
     {
         if (_strcmp(aliases[i].alias, alias) == 0) 
         { 
@@ -754,7 +769,8 @@ char *get_alias(char *alias)
 
 void free_aliases() 
 {
-    for (int i = 0; i < alias_count; i++) 
+    int i;
+    for (i = 0; i < alias_count; i++) 
     {
         if(aliases[i].alias && aliases[i].command)
         {
@@ -769,27 +785,37 @@ void free_aliases()
 void handle_builtin_command(char **cmd, int token) {
     char **command = cmd;
 
-    if (_strcmp(command[token - 1], "exit") == 0) {
+    if (_strcmp(command[token - 1], "exit") == 0)
+    {
         /** Handle exit command
          *  You may perform any necessary
          * cleanup here before exiting.
          */
          shell_exit(my_atoi(command[token]));
          
-    } else if (_strcmp(command[token - 1], "alias") == 0) {
+    }
+    else if (_strcmp(command[token - 1], "alias") == 0) 
+    {
         /* Handle alias command */
         if (command[token - 1] && command[token])
         {
             add_alias(command[token - 1], command[token]);
-        } else {
+        } 
+	else
+	{
             list_aliases();
         }
-    } else if (_strcmp(command[token - 1], "unalias") == 0) {
+    }
+    else if (_strcmp(command[token - 1], "unalias") == 0) 
+    {
         /* Handle unalias command  */
-        if (command[token]) {
+        if (command[token])
+	{
             remove_alias(command[token]);
         }
-    } else if (_strcmp(command[token - 1], "cd") == 0) {
+    } 
+    else if (_strcmp(command[token - 1], "cd") == 0) 
+    {
         /* Handle cd command */
         if (command[token])
         {
