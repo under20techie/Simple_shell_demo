@@ -15,7 +15,7 @@ extern char **environ;
 extern int env_count;
 extern int alias_count;
 extern int status;
-extern env_capacity;
+extern int env_capacity;
 typedef struct
 {
     char *alias;
