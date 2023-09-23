@@ -1,6 +1,7 @@
 #include "main.h"
 void add_alias(char *alias, char *command) 
 {
+    static int alias_count = 0;
     if (alias_count >= MAX_ALIAS_COUNT) 
     {
         perror("Alias: Maximum number of aliases reached.");
