@@ -1,3 +1,4 @@
+#include "main.h"
 void add_alias(char *alias, char *command) 
 {
     if (alias_count >= MAX_ALIAS_COUNT) 
