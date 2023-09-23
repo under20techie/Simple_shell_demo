@@ -1,3 +1,4 @@
+#include "main.h"
 char *my_strcpy(char *to, char *from)
 {
 	char *save = to;
