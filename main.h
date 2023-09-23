@@ -12,10 +12,10 @@
 #include <sys/wait.h>
 
 extern char **environ;
-int env_count = 0;
-int alias_count = 0;
-int status;
-int env_capacity = ENV_CAPACITY;
+extern int env_count;
+extern int alias_count;
+extern int status;
+extern env_capacity;
 typedef struct
 {
     char *alias;
