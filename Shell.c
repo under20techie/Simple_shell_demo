@@ -3,10 +3,6 @@ int main (int argc, char *argv[])
 {
     (void) argc;
     (void) argv;
-    int env_count = 0;
-    int alias_count = 0;
-    int status;
-    int env_capacity = ENV_CAPACITY;
 	
     if (!isatty(STDIN_FILENO))
         non_interactive_mode((void *) 0);
