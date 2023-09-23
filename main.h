@@ -105,7 +105,7 @@ void shell_exit(int exit_status);
 int my_atoi(char* str);
 void exec_simple_command(char **cmd, int *token);
 void search_forward(char **tokens, int start_index);
-void search_backward(char **tokens, int end_index) ;
+void search_backward(char **tokens, int end_index);
 int check_for_special_characters(char **tokens);
 #endif /* MAIN_H_ */
 
