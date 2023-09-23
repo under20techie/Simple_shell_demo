@@ -10,6 +10,7 @@ int main (int argc, char *argv[])
         interactive_mode();
 return status;
 }
+
 void non_interactive_mode(char *filename)
 {
 	(void)filename; 
@@ -23,6 +24,7 @@ void non_interactive_mode(char *filename)
     
     
 }
+
 void interactive_mode(void)
 {
         char *line = NULL;
@@ -53,18 +55,6 @@ void interactive_mode(void)
     free(line);
 }
 
-char *my_strchr(char *str, int ch) 
-{
-    char c = ch;
-
-    for (;; ++str) 
-    {
-        if (*str == c)
-            return ((char *)str);
-        if (*str == '\0')
-            return (NULL);
-    }
-}
 
 void print_my_prompt(void)
 {
@@ -152,244 +142,4 @@ void parse_command(char **token, int num_tokens)
 			
 		}
 	}
-}
-
-void add_alias(char *alias, char *command) 
-{
-    if (alias_count >= MAX_ALIAS_COUNT) 
-    {
-        perror("Alias: Maximum number of aliases reached.");
-        return;
-    }
-
-    aliases[alias_count].alias = my_strdup(alias);
-    aliases[alias_count].command = my_strdup(command);
-    alias_count++;
-}
-
-void list_aliases() 
-{
-    int i;
-    for (i = 0; i < alias_count; i++) 
-    {
-        printf("alias %s='%s'\n", aliases[i].alias, aliases[i].command);
-    }
-}
-
-void remove_alias(char *alias) 
-{
-    int i, j;
-    for (i = 0; i < alias_count; i++)
-    {
-        if (_strcmp(aliases[i].alias, alias) == 0) 
-        {
-            free(aliases[i].alias);
-            free(aliases[i].command);
-            /* Shift the elements after the removed alias
-            */
-            for (j = i; j < alias_count - 1; j++)
-            {
-                aliases[j] = aliases[j + 1];
-            }
-            alias_count--;
-            return;
-        }
-    }
-}
-
-char *get_alias(char *alias) 
-{
-    int i;
-    for (i = 0; i < alias_count; i++) 
-    {
-        if (_strcmp(aliases[i].alias, alias) == 0) 
-        { 
-            return aliases[i].command;
-        }
-    }
-    return NULL;
-}
-
-void free_aliases() 
-{
-    int i;
-    for (i = 0; i < alias_count; i++) 
-    {
-        if(aliases[i].alias && aliases[i].command)
-        {
-            free(aliases[i].alias);
-            free(aliases[i].command);
-        }
-    }
-    alias_count = 0;
-}
-
-
-void handle_builtin_command(char **cmd, int token) {
-    char **command = cmd;
-
-    if (_strcmp(command[token - 1], "exit") == 0)
-    {
-        /** Handle exit command
-         *  You may perform any necessary
-         * cleanup here before exiting.
-         */
-         shell_exit(my_atoi(command[token]));
-         
-    }
-    else if (_strcmp(command[token - 1], "alias") == 0) 
-    {
-        /* Handle alias command */
-        if (command[token - 1] && command[token])
-        {
-            add_alias(command[token - 1], command[token]);
-        } 
-	else
-	{
-            list_aliases();
-        }
-    }
-    else if (_strcmp(command[token - 1], "unalias") == 0) 
-    {
-        /* Handle unalias command  */
-        if (command[token])
-	{
-            remove_alias(command[token]);
-        }
-    } 
-    else if (_strcmp(command[token - 1], "cd") == 0) 
-    {
-        /* Handle cd command */
-        if (command[token])
-        {
-            if (chdir(command[token]) == -1)
-            {
-                perror("cd");
-            }
-        }
-        else 
-        {
-            perror("cd: Missing argument");
-        }
-    }
-    else if (_strcmp(command[token - 1], "setenv") == 0) 
-    {
-        /* Handle setenv command */
-        if (command[token - 1] && command[token]) 
-        {
-            set_environment_variable(command[token - 1], command[token]);
-        } 
-        else 
-        {
-            perror("setenv: Invalid arguments");
-        }
-    }
-    else if (_strcmp(command[token - 1], "unsetenv") == 0)
-    {
-        /* Handle unsetenv command */
-        if (command[token]) 
-        {
-            unset_environment_variable(command[token]);
-        }
-        else 
-        {
-            perror("unsetenv: Missing argument");
-        }
-    }
-    else 
-    {
-        /* Not a built-in command */
-        execute_external_command(command, token);
-    }
-}
-
-void execute_command(char **cmd, int token)
-{
-        handle_builtin_command(cmd,  token);
-}
-
-
-void execute_external_command(char **command, int token)
-{
-    /** Resolve the command path using the
-     * provided function
-    */
-    char *command_path = get_command_path(command[token - 1]);
-
-    if (command_path) 
-    {
-        /** Fork a child process to execute
-         *  the command
-        */
-        pid_t pid = fork();
-        if (pid < 0) 
-        {
-            perror("fork");
-        } 
-        else if (pid == 0) 
-        {
-            /** Child process: execute the
-             *  command
-             */
-            execve(command_path, command, environ);
-
-            /** If execve returns, there was
-             * an error
-             */
-            perror("execve");
-            exit(EXIT_FAILURE);
-        } 
-        else 
-        {
-            /* Parent process: wait for the child to complete
-            */
-            waitpid(pid, &status, 0);
-
-            /* Save the exit status of the last executed command */
-            shell_exit(WEXITSTATUS(status));
-        }
-
-        free(command_path);
-    }
-    else 
-    {
-        /* Command not found in PATH */
-        perror("Command not found");
-    }
-    
-}
-int my_atoi(char* str)
-{
-    int res = 0, i;
-    for (i = 0; str[i] != '\0'; ++i)
-        res = res * 10 + str[i] - '0';
-        
-    return res;
-}
-
-
-void shell_exit(int exit_status)
-{
-
-    exit(exit_status);
-    /* Add any additional cleanup or termination steps if needed
-    */
-}  
-
-int check_for_special_characters(char **tokens) 
-{
-    int i;
-    for (i = 0; tokens[i] != NULL; i++) 
-    {
-        char *token = tokens[i];
-        if (my_strchr(token, '|') || my_strchr(token, ';') ||
-            my_strchr(token, '&') || my_strchr(token, '<') ||
-            my_strchr(token, '>') || my_strstr(token, "&&") ||
-            my_strstr(token, "||")) 
-            {
-            return 1; /* Special character found */
-        }
-    }
-    
-    return 0; /* No special characters found */
 }
