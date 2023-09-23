@@ -3,8 +3,6 @@ void exec_pipe(char **token, int *token_ptr)
 {
    (void) token;
    (void) token_ptr;
-	
-;
 
 }
 
