@@ -90,7 +90,7 @@ void execute_external_command(char **command, int token)
      * provided function
     */
     char *command_path = get_command_path(command[token - 1]);
-    static int status = 0;
+    int status = 0;
     if (command_path) 
     {
         /** Fork a child process to execute
