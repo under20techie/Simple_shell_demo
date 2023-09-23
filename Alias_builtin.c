@@ -15,8 +15,8 @@ void add_alias(char *alias, char *command)
 
 void list_aliases() 
 {
-    int i;
-    for (i = 0; i < alias_count; i++) 
+    int i, count = alias_count;
+    for (i = 0; i < count; i++) 
     {
         printf("alias %s='%s'\n", aliases[i].alias, aliases[i].command);
     }
@@ -24,8 +24,8 @@ void list_aliases()
 
 void remove_alias(char *alias) 
 {
-    int i, j;
-    for (i = 0; i < alias_count; i++)
+    int i, j, count = alias_count;
+    for (i = 0; i < count; i++)
     {
         if (_strcmp(aliases[i].alias, alias) == 0) 
         {
@@ -33,11 +33,11 @@ void remove_alias(char *alias)
             free(aliases[i].command);
             /* Shift the elements after the removed alias
             */
-            for (j = i; j < alias_count - 1; j++)
+            for (j = i; j < count - 1; j++)
             {
                 aliases[j] = aliases[j + 1];
             }
-            alias_count--;
+            count--;
             return;
         }
     }
@@ -45,8 +45,8 @@ void remove_alias(char *alias)
 
 char *get_alias(char *alias) 
 {
-    int i;
-    for (i = 0; i < alias_count; i++) 
+    int i, count = alias_count;
+    for (i = 0; i < count; i++) 
     {
         if (_strcmp(aliases[i].alias, alias) == 0) 
         { 
@@ -58,8 +58,8 @@ char *get_alias(char *alias)
 
 void free_aliases() 
 {
-    int i;
-    for (i = 0; i < alias_count; i++) 
+    int i, count = alias_count;
+    for (i = 0; i < count; i++) 
     {
         if(aliases[i].alias && aliases[i].command)
         {
