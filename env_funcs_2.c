@@ -1,8 +1,8 @@
 #include "main.h"
 void add_environment_variable(char *name, char *value) 
 {
-    static int env_count = 0;
-    static int env_capacity = ENV_CAPACITY;
+    int env_count = 0;
+    int env_capacity = ENV_CAPACITY;
     if (env_count >= env_capacity) {
         /* Increase the capacity if needed */
             perror("No space in array");
