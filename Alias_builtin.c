@@ -37,7 +37,7 @@ void remove_alias(char *alias)
             {
                 aliases[j] = aliases[j + 1];
             }
-            count--;
+            alias_count--;
             return;
         }
     }
@@ -46,7 +46,7 @@ void remove_alias(char *alias)
 char *get_alias(char *alias) 
 {
     int i;
-    for (i = 0; i < alias_count;; i++) 
+    for (i = 0; i < alias_count; i++) 
     {
         if (_strcmp(aliases[i].alias, alias) == 0) 
         { 
