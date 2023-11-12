@@ -24,3 +24,17 @@ char *my_strcat(char *s, char *append)
 	    ;
 	return(save);
 }
+char *my_strchr(char *str, int ch)
+{
+	while (*str != '\0')
+	{
+        	if (*str == ch)
+		{
+			return (char *)str;  // Found the character, return its address
+		}
+        	str++;
+	}
+    // If the character is not found, return NULL
+    return NULL;
+}
+
