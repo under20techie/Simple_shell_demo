@@ -4,10 +4,8 @@ int alias_count = 0;
 int status = 0;
 int env_capacity = 10;
 
-int main (int argc, char *argv[])
+int main ()
 {
-    (void) argc;
-    (void) argv;
 	
     if (!isatty(STDIN_FILENO))
         non_interactive_mode((void *) 0);
@@ -34,7 +32,7 @@ void interactive_mode(void)
 {
         char *line = NULL;
         size_t n = 1024;
-        ssize_t bytes_read;
+        ssize_t bytes_read = 0;
 
         while (1) 
         {
@@ -136,7 +134,7 @@ void parse_command(char **token, int num_tokens)
 			exec_background(token, &i);
 			break;
 			case TOKEN_LOGICAL_AND:
-		exec_logical_and(token, &i);
+			exec_logical_and(token, &i);
 			break;
 			case TOKEN_LOGICAL_OR:
 			exec_logical_or(token, &i);

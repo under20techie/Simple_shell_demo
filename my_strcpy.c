@@ -9,10 +9,15 @@ char *my_strcpy(char *to, char *from)
 int my_strlen(char *str)
 {
 	register char *s;
+	if (str == NULL)
+	{
+        	perror("you called with a null poniter");
+	}
+	s = str;
 
-	for ((s = str); *s; ++s)
+	for (; *s; ++s)
 	    ;
-	    return(s - str);
+	return(s - str);
 }
 char *my_strcat(char *s, char *append)
 {
@@ -30,11 +35,11 @@ char *my_strchr(char *str, int ch)
 	{
         	if (*str == ch)
 		{
-			return (char *)str;  // Found the character, return its address
+			return (char *)str;  /* Found the character, return its address */
 		}
         	str++;
 	}
-    // If the character is not found, return NULL
+    /* If the character is not found, return NULL */
     return NULL;
 }
 
