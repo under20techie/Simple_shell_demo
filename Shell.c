@@ -4,24 +4,46 @@ int alias_count = 0;
 int status = 0;
 int env_capacity = 60;
 
-int main (int argc, char *argv[], char *envp[])
-{
-    int i = 0;
-    (void)argv;
-    (void) argc;
+char **__envp = NULL;
 
-    for (i = 0; envp[i] != NULL; i++)
+int main(int argc, char *argv[], char *envp[]) {
+    int i = 0;
+    char *name, *value;
+    (void)argv;  /* Suppress unused variable warning */
+    (void)argc;  /* Suppress unused variable warning */
+
+    /* Allocate memory for the __envp array */
+    __envp = (char **)malloc(sizeof(char *) * env_capacity);
+
+    if (__envp == NULL)
     {
-	 char *name = my_strtok(envp[i], "=");
-         char *value = my_strtok(NULL, "");
-         add_environment_variable(name, value); 
+        perror("Memory allocation failed");
+        exit(EXIT_FAILURE);
     }
+    for (i = 0; envp[i] != NULL && i < env_capacity; i++)
+    {
+	__envp[i] = (char *)malloc(my_strlen(envp[i]) + 1);
+
+        if (__envp[i] == NULL)
+	{
+            perror("Memory allocation failed");
+            exit(EXIT_FAILURE);
+        }
+        my_strcpy(__envp[i], envp[i]);
+	name = my_strtok(envp[i], "=");
+        value = my_strtok(NULL, "");
+        add_environment_variable(name, value);
+    }
+
+    /* Check if not in interactive mode */
     if (!isatty(STDIN_FILENO))
-        non_interactive_mode((void *) 0);
+        non_interactive_mode((void *)0);
     else
         interactive_mode();
-   return status;
+
+    return status;
 }
+
 
 void non_interactive_mode(char *filename)
 {

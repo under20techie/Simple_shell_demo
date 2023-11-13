@@ -52,7 +52,7 @@ void execute_external_command(char **command, int token)
              *  command
              */
             update_first_token(command, command_path);
-            execve(command[0], command, NULL);
+            execve(command[0], command, __envp);
 
             /** If execve returns, there was
              * an error

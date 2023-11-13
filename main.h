@@ -10,8 +10,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-
-extern char **environ;
+extern char **__envp;
 extern int env_count;
 extern int alias_count;
 extern int status;
