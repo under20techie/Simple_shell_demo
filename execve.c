@@ -67,7 +67,7 @@ void execute_external_command(char **command, int token)
             waitpid(pid, &status, 0);
 
             /* Save the exit status of the last executed command*/
-            shell_exit(WEXITSTATUS(status));
+            status = WEXITSTATUS(status);
         }
 	free(command_path);
  
