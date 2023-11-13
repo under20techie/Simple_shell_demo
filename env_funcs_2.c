@@ -39,14 +39,16 @@ char *get_command_path(char *command)
     {
         char *command_path = (char *)malloc(my_strlen(dir) + my_strlen(command) + 2);
         my_strcpy(command_path, dir);
-	my_strcpy(command_path, "/");
-	my_strcpy(command_path, command);
+	my_strcat(command_path, "/"); 
+	my_strcat(command_path, command);
 
         if (access(command_path, X_OK) == 0)
         {
             free(path_copy);
-            return command_path;}
+            return command_path;
+	}
 
+      
         free(command_path);
         dir = my_strtok(NULL, ":");
     }

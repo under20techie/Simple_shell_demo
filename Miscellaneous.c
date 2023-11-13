@@ -9,10 +9,10 @@ int my_atoi(char* str)
 }
 
 
-void shell_exit(int exit_status)
+int shell_exit(int exit_status)
 {
 
-    exit(exit_status);
+    return exit_status;
     /* Add any additional cleanup or termination steps if needed
     */
 }  

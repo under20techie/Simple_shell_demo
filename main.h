@@ -101,7 +101,7 @@ void list_aliases();
 void free_aliases();
 void handle_builtin_command(char **cmd, int token);
 void execute_command(char **cmd, int token);
-void shell_exit(int exit_status);
+int shell_exit(int exit_status);
 int my_atoi(char* str);
 void exec_simple_command(char **cmd, int *token);
 void search_forward(char **tokens, int start_index);
@@ -113,7 +113,7 @@ void setenv_built_in(char **cmd, int token);
 void unsetenv_built_in(char **cmd, int token);
 void echo_built_in(char **cmd, int token);
 void exit_built_in(char **cmd, int token);
-
+void update_first_token(char **cmd, char *new_path);
 #endif /* MAIN_H_ */
 
 

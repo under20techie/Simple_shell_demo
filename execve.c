@@ -30,7 +30,80 @@ void execute_command(char **cmd, int token)
 
 void execute_external_command(char **command, int token)
 {
-    (void)command;
-    (void) token;
-    
+	/** Resolve the command path using the
+     * provided function
+    */
+    char *command_path = get_command_path(command[0]);
+    (void)token;
+
+    if (command_path)
+    {
+        /** Fork a child process to execute
+         *  the command
+        */
+        pid_t pid = fork();
+        if (pid < 0)
+        {
+            perror("fork");
+        }
+        else if (pid == 0)
+        {
+            /** Child process: execute the
+             *  command
+             */
+            update_first_token(command, command_path);
+            execve(command[0], command, NULL);
+
+            /** If execve returns, there was
+             * an error
+             */
+            perror("execve");
+            exit(EXIT_FAILURE);
+        }
+        else
+        {
+            /* Parent process: wait for the child to complete
+            */
+            waitpid(pid, &status, 0);
+
+            /* Save the exit status of the last executed command*/
+            shell_exit(WEXITSTATUS(status));
+        }
+	free(command_path);
+ 
+    }
+    else
+    {
+        /* Command not found in PATH */
+        perror("Command not found");
+    }
+
+}
+void update_first_token(char **cmd, char *new_path)
+{
+    /* Check if cmd is not NULL and has at least one token */
+    if (cmd != NULL && cmd[0] != NULL)
+    {
+        /* Free the existing memory for the first token */
+        free(cmd[0]);
+
+        /* Allocate memory for the new path */
+        cmd[0] = malloc(my_strlen(new_path) + 1);
+
+        /* Check if memory allocation is successful */
+        if (cmd[0] == NULL)
+	{
+            perror("Memory allocation failed");
+            exit(EXIT_FAILURE);
+        }
+
+        /* Copy the new path to the first token */
+        my_strcpy(cmd[0], new_path);
+    }
+    else
+    {
+        /* Handle the case where cmd is NULL or has no tokens */
+        printf("Invalid command tokens.\n");
+    }
+
 }

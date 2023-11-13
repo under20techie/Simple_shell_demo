@@ -2,16 +2,25 @@
 int env_count = 0;
 int alias_count = 0;
 int status = 0;
-int env_capacity = 10;
+int env_capacity = 60;
 
-int main ()
+int main (int argc, char *argv[], char *envp[])
 {
-	
+    int i = 0;
+    (void)argv;
+    (void) argc;
+
+    for (i = 0; envp[i] != NULL; i++)
+    {
+	 char *name = my_strtok(envp[i], "=");
+         char *value = my_strtok(NULL, "");
+         add_environment_variable(name, value); 
+    }
     if (!isatty(STDIN_FILENO))
         non_interactive_mode((void *) 0);
     else
         interactive_mode();
-return status;
+   return status;
 }
 
 void non_interactive_mode(char *filename)
