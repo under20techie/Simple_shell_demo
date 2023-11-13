@@ -2,17 +2,17 @@
 void handle_builtin_command(char **cmd, int token)
 {
 	if (cmd[0] != NULL) {
-        	if (strcmp(cmd[0], "alias") == 0) {
+        	if (_strcmp(cmd[0], "alias") == 0) {
             		alias_built_in(cmd, token);
-        	} else if (strcmp(cmd[0], "cd") == 0) {
+        	} else if (_strcmp(cmd[0], "cd") == 0) {
             		cd_built_in(cmd, token);
-        	} else if (strcmp(cmd[0], "setenv") == 0) {
+        	} else if (_strcmp(cmd[0], "setenv") == 0) {
             		setenv_built_in(cmd, token);
-        	} else if (strcmp(cmd[0], "unsetenv") == 0) {
+        	} else if (_strcmp(cmd[0], "unsetenv") == 0) {
             		unsetenv_built_in(cmd, token);
-        	} else if (strcmp(cmd[0], "echo") == 0) {
+        	} else if (_strcmp(cmd[0], "echo") == 0) {
             		echo_built_in(cmd, token);
-        	} else if (strcmp(cmd[0], "exit") == 0) {
+        	} else if (_strcmp(cmd[0], "exit") == 0) {
             		exit_built_in(cmd, token);
         	} else {
             		execute_external_command(cmd, token);
