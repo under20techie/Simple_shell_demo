@@ -1,30 +1,26 @@
 #include "main.h"
 void handle_builtin_command(char **cmd, int token)
 {
-	switch (cmd[0])
-	{
-		case "alias":
-		alias_built_in(cmd, token);
-		break;
-		case "cd":
-		cd_built_in(cmd, token);
-		break;
-		case "setenv":
-		setenv_built_in(cmd, token);
-		break;
-		case "unsetenv":
-		unsetenv_built_in(cmd, token);
-		break;
-		case "echo":
-		echo_built_in(cmd, token);
-		break;
-		case "exit":
-		exit_built_in(cmd, token);
-		break;
-		default:
-		execute_external_command(cmd, token);
-			
-	}
+	if (cmd[0] != NULL) {
+        	if (strcmp(cmd[0], "alias") == 0) {
+            		alias_built_in(cmd, token);
+        	} else if (strcmp(cmd[0], "cd") == 0) {
+            		cd_built_in(cmd, token);
+        	} else if (strcmp(cmd[0], "setenv") == 0) {
+            		setenv_built_in(cmd, token);
+        	} else if (strcmp(cmd[0], "unsetenv") == 0) {
+            		unsetenv_built_in(cmd, token);
+        	} else if (strcmp(cmd[0], "echo") == 0) {
+            		echo_built_in(cmd, token);
+        	} else if (strcmp(cmd[0], "exit") == 0) {
+            		exit_built_in(cmd, token);
+        	} else {
+            		execute_external_command(cmd, token);
+        	}
+    	} else {
+        /* Handle case where cmd[0] is NULL */
+        	perror("No command provided.");
+    	}
 }
 void execute_command(char **cmd, int token)
 {
