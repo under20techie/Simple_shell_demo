@@ -107,6 +107,13 @@ void exec_simple_command(char **cmd, int *token);
 void search_forward(char **tokens, int start_index);
 void search_backward(char **tokens, int end_index);
 int check_for_special_characters(char **tokens);
+void alias_built_in(char **cmd, int token);
+void cd_built_in(char **cmd, int token);
+void setenv_built_in(char **cmd, int token);
+void unsetenv_built_in(char **cmd, int token);
+void echo_built_in(char **cmd, int token);
+void exit_built_in(char **cmd, int token);
+
 #endif /* MAIN_H_ */
 
 
