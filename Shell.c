@@ -116,7 +116,7 @@ void parse_cmd_line(char *cmd_line)
 {
         
         char *token = my_strtok(cmd_line, " ");
-        int token_no = 0, i = 0;
+        int token_no = 0;
         while (token != NULL)
         {
                 if (token_no >= MAX_TOKENS)
@@ -131,10 +131,7 @@ void parse_cmd_line(char *cmd_line)
         }
         tokens[token_no] = NULL;
         /* Call parse */
-	while(tokens[i])
-	{
-		printf("%s\n",tokens[i++]);
-	}
+	
     parse_command(tokens, token_no);
     
 }
