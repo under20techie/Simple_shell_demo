@@ -11,7 +11,8 @@ int my_atoi(char* str)
 
 int shell_exit(int exit_status)
 {
-
+    free_environment();
+    free_tokens();
     exit(exit_status);
     /* Add any additional cleanup or termination steps if needed
     */
@@ -33,4 +34,12 @@ int check_for_special_characters(char **tokens)
     }
     
     return 0; /* No special characters found */
+}
+void free_tokens()
+{
+	int i = 0;
+	while(tokens[i])
+	{
+		free(tokens[i++]);
+	}
 }

@@ -3,8 +3,8 @@ int env_count = 0;
 int alias_count = 0;
 int status = 0;
 int env_capacity = 60;
-
 char **__envp = NULL;
+char *tokens[MAX_TOKENS];
 
 int main(int argc, char *argv[], char *envp[]) {
     int i = 0;
@@ -117,8 +117,6 @@ void parse_cmd_line(char *cmd_line)
         
         char *token = my_strtok(cmd_line, " ");
         int token_no = 0, i = 0;
-        char *tokens[MAX_TOKENS];
-
         while (token != NULL)
         {
                 if (token_no >= MAX_TOKENS)

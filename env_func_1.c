@@ -8,8 +8,27 @@ void set_environment_variable(char *name, char *value)
         {
             free(env_vars[i].value);
             env_vars[i].value = my_strdup(value);
-            return;
-        }
+	    if (!env_vars[i].value)
+	    {
+		    perror("Malloc");
+		    exit(EXIT_FAILURE);
+	    }
+	    if(my_strstr(__envp[i], name))
+	    {
+		    free(__envp[i]);
+		    __envp[i] = (char *)malloc(my_strlen(name)+ my_strlen(value) + 2);
+    		    if (!__envp[i])
+    		    {
+	    		     perror("Malloc");
+            		     exit(EXIT_FAILURE);
+    		    }
+
+ 		    my_strcpy(__envp[i], name);
+    	            my_strcat(__envp[i], "=");
+    		    my_strcat(__envp[i], value);
+	    }
+	    return;
+	}
     }
 
     /* If the variable doesn't exist, add it */
@@ -25,10 +44,15 @@ void unset_environment_variable(char *name)
         {
             free(env_vars[i].name);
             free(env_vars[i].value);
+	    if(my_strstr(__envp[i], name))
+	    {
+		    free(__envp[i]);
+	    }
             /* Shift the elements after the removed variable */
             for (j = i; j < env_count - 1; j++) 
             {
                 env_vars[j] = env_vars[j + 1];
+		__envp[j] = __envp[j + 1];
             }
             env_count--;
             return;

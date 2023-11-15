@@ -15,6 +15,7 @@ extern int env_count;
 extern int alias_count;
 extern int status;
 extern int env_capacity;
+extern char *tokens[MAX_TOKENS];
 typedef struct
 {
     char *alias;
@@ -92,6 +93,7 @@ char* get_env(char *name);
 void set_environment_variable(char *name, char *value);
 void unset_environment_variable(char *name); 
 void free_environment();
+void free_tokens();
 char *get_command_path(char *command);
 void add_alias(char *alias, char *command);
 void remove_alias(char *alias); 
